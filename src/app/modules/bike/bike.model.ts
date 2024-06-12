@@ -38,8 +38,13 @@ const BikeSchema = new Schema<TBike>({
         required: true,
         trim: true,
     },
-}, {
-    timestamps: true,
-});
+},
+);
+
+//hiding deleted bikes
+// BikeSchema.pre('find', function(next){
+//     this.find({isAvailable : { $ne:false }});
+//     next();
+// })
 
 export const Bike = model<TBike>('Bike', BikeSchema)

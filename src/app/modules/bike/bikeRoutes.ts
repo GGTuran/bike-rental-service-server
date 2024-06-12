@@ -14,4 +14,19 @@ router.post(
     BikeControllers.createBike
 );
 
+router.get('/', BikeControllers.getAllBike);
+
+router.put(
+    '/:id',
+    auth(USER_ROLE.admin),
+    validate(BikeValidations.updateBikeZod),
+    BikeControllers.updateBike
+);
+
+router.delete(
+    '/:id',
+    auth(USER_ROLE.admin),
+    BikeControllers.deleteBike,
+);
+
 export const BikeRoutes = router;
