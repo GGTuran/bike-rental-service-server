@@ -26,16 +26,17 @@ const loginUser = async(payload:TLoginUser) => {
 
     //creating access token
     const jwtPayload = {
+        userId:user._id,
         email:user?.email,
         role:user?.role,
     };
 
-    const accessToken = jwt.sign(jwtPayload, config.JWT_ACCESS_SECRET as string,{
+    const token = jwt.sign(jwtPayload, config.JWT_ACCESS_SECRET as string,{
         expiresIn:config.jwt_access_expires_in,
     });
 
     return {
-        accessToken,
+        token,
         user,
     }
 

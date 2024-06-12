@@ -11,8 +11,20 @@ const createUserZod = z.object({
       address: z.string({ required_error: 'Address is required' }),
     }),
   });
+
+  const updateUserZod = z.object({
+    body: z.object({
+      name: z.string({ required_error: 'Name is required' }).optional(),
+      email: z.string({ required_error: 'Email is required' }).email({message: "Invalid email"}).optional(),
+      password: z.string({ required_error: 'Password is required' }).optional(),
+      phone: z.string({ required_error: 'Phone Number is required' }).optional(),
+      role: z.nativeEnum(USER_ROLE).optional(),
+      address: z.string({ required_error: 'Address is required' }).optional(),
+    }),
+  });  
   
   export const userValidations = {
     createUserZod,
+    updateUserZod,
   };
   
