@@ -36,6 +36,41 @@ const createRentalFromDB = async(req:Request)=>{
     }
 };
 
+const returnRentalIntoDB = async(id:string)=>{
+    const borrowedBike = await Rental.findById(id);
+    //checking if the rental is exist or not
+    if(!borrowedBike){
+        throw new AppError(404,'Rental not found');
+    } 
+    const bike = await Bike.findById(borrowedBike?.bikeId);
+
+    const session = await mongoose.startSession();
+    try {
+        session.startTransaction();
+        //set the iso dates
+        const startTime = new Date(borrowedBike.startTime);
+        const returnTime = new Date();
+
+        //calculation part
+        const duration = Math.ceil((returnTime.getTime() - startTime.getTime())/(1000 * 60 * 60));
+        // const hours = duration/(1000 * 60 *60);
+        const totalCost = duration * (bike?.pricePerHour as number);
+
+        const rentalReturn = await Rental.findByIdAndUpdate( id, {returnTime:returnTime, totalCost:totalCost, isReturned:true }, {new:true,session});
+
+        const updateAvailability = await Bike.findByIdAndUpdate(borrowedBike?.bikeId, { isAvailable:true}, {new:true,session});
+
+        await session.commitTransaction();
+        await session.endSession();
+        return rentalReturn;
+    } catch (error) {
+        await session.abortTransaction();
+        await session.endSession();
+        throw new AppError(500,'Error returning bike')
+    }
+}
+
 export const RentalServices = {
     createRentalFromDB,
+    returnRentalIntoDB,
 }

@@ -3,7 +3,7 @@ import sendResponse from "../../utils/sendResponse";
 import { RentalServices } from "./rentalService";
 
 const createRental = catchAsync(async(req,res)=>{
-    const result = await RentalServices.createRentalFromDB(req);
+    const result = await RentalServices.createRentalFromDB(req);        //only using req will extract the user data
     console.log(result);
     sendResponse(res,{
         success:true,
@@ -14,6 +14,19 @@ const createRental = catchAsync(async(req,res)=>{
 
 });
 
+const returnRental = catchAsync(async(req,res)=>{
+    const { id } = req.params;
+    const result = await RentalServices.returnRentalIntoDB(id);
+    console.log('controller', id, result);
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:"Bike returned successfully",
+        data:result,
+    });
+});
+
 export const RentalControllers = {
     createRental,
+    returnRental,
 }
