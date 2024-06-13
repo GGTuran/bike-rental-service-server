@@ -68,9 +68,15 @@ const returnRentalIntoDB = async(id:string)=>{
         await session.endSession();
         throw new AppError(500,'Error returning bike')
     }
+};
+
+const getAllRentalFromDB = async ()=>{
+    const result = await Rental.find();
+    return result;
 }
 
 export const RentalServices = {
     createRentalFromDB,
     returnRentalIntoDB,
+    getAllRentalFromDB,
 }

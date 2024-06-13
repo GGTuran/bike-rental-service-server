@@ -26,7 +26,18 @@ const returnRental = catchAsync(async(req,res)=>{
     });
 });
 
+const getAllRental = catchAsync(async(req,res)=>{
+    const result = await RentalServices.getAllRentalFromDB();
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:"Rentals retrieved successfully",
+        data:result,
+    });
+});
+
 export const RentalControllers = {
     createRental,
     returnRental,
+    getAllRental,
 }
