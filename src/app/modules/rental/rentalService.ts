@@ -52,7 +52,7 @@ const returnRentalIntoDB = async(id:string)=>{
         const returnTime = new Date();
 
         //calculation part
-        const duration = Math.ceil((returnTime.getTime() - startTime.getTime())/(1000 * 60 * 60));
+        const duration = Math.ceil((returnTime.getTime() - startTime.getTime())/(1000 * 60 * 60 * 60));
         // const hours = duration/(1000 * 60 *60);
         const totalCost = duration * (bike?.pricePerHour as number);
 

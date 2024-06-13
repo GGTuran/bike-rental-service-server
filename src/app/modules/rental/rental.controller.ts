@@ -28,6 +28,13 @@ const returnRental = catchAsync(async(req,res)=>{
 
 const getAllRental = catchAsync(async(req,res)=>{
     const result = await RentalServices.getAllRentalFromDB();
+    if(result.length === 0){
+        return res.status(404).json({
+            success:false,
+            message:"No Data Found",
+            data:[]
+        });
+    }
     sendResponse(res,{
         success:true,
         statusCode:200,

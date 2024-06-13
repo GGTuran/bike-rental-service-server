@@ -14,6 +14,13 @@ const createBike = catchAsync(async(req,res)=>{
 
 const getAllBike = catchAsync(async(req,res)=>{
     const result = await BikeServices.getAllBikeFromDB();
+    if(result.length === 0){
+        return res.status(404).json({
+            success:false,
+            message:"No Data Found",
+            data:[]
+        });
+    }
     sendResponse(res,{
         success:true,
         statusCode:200,
