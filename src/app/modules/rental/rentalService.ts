@@ -4,6 +4,8 @@ import { Bike } from "../bike/bike.model";
 import AppError from "../../errors/AppError";
 import mongoose from "mongoose";
 import { Rental } from "./rental.model";
+import getDifference from "./rental.utils";
+
 
 const createRentalFromDB = async(req:Request)=>{
     const rental:TRental = req.body;
@@ -52,9 +54,10 @@ const returnRentalIntoDB = async(id:string)=>{
         const returnTime = new Date();
 
         //calculation part
-        const duration = Math.ceil((returnTime.getTime() - startTime.getTime())/(1000 * 60 * 60 * 60));
-        // const hours = duration/(1000 * 60 *60);
-        const totalCost = duration * (bike?.pricePerHour as number);
+        const totalCost = getDifference(startTime,returnTime) * (bike?.pricePerHour as number)
+
+        // console.log('utility' ,getHours(startTime,returnTime), bike?.pricePerHour ,totalCost)
+        // console.log(duration,returnTime.getHours(), startTime.getHours(),totalCost);
 
         const rentalReturn = await Rental.findByIdAndUpdate( id, {returnTime:returnTime, totalCost:totalCost, isReturned:true }, {new:true,session});
 
