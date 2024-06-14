@@ -3,9 +3,11 @@ import { User } from "./user.model";
 import AppError from "../../errors/AppError";
 
 const GetProfileFromDB = async (req:Request) => {
+    //getting the extracted data from decoded token
     const user = req.user;     
+    //searching by id which can be achieved from decoded token
     const findUser = await User.findById(user?.userId);
-    console.log('service' ,findUser);
+    // console.log('service' ,findUser);
     if(!findUser){
         throw new AppError(404,'User not found');
     }
@@ -14,10 +16,11 @@ const GetProfileFromDB = async (req:Request) => {
 
 
 const UpdateProfileIntoDB = async(req:Request)=>{
+    //getting the data from token
     const user = req.user;
     const updatedData = req.body;
     const findUser = await User.findById(user?.userId);
-    console.log('service', findUser)
+    // console.log('service', findUser)
 
     //checking if the user exist
     if(!findUser){

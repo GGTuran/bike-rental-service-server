@@ -1,87 +1,82 @@
+# Bike Rental System Backend
+
+## So,here is a backend server for renting bikes.It will allow someone to rent a bike for a time being and return it as his will of time,with payment.This system is so helpful for the tourist
+
+## Live URL
+
+[https://bike-rental-service-server.vercel.app/](https://bike-rental-service-server.vercel.app/)
+
+## Features
+
+- **User Authentication**: Users can sign up, log in, and see their Booked rentals.
+- **Bike Management**: Only an admin will be able to create database about bikes and also can update those.Everyone can see all the bike data to choose the desired bike for renting.
+- **Renting Management**: An user can rent a bike of his/her likings.While only an admin can do works for returning a rented bike in database after getting it back from an user.Anyone can see his/her rentals if he/she ever made one.
+
 Technology Stack:
 
 - Programming Language: TypeScript
 - Web Framework: Express.js
-- ODM & Validation Library: Zod, Mongoose for MongoDB
+- Database: MongoDB(Mongoose for ODM)
+- Validation Library: Zod
 - Authentication & Authorization : JSON Web Token
-
-
-
-# Bike Rental System Backend
-
-I have developed a Bike Rental System Backend Server using Express.js, Mongoose, and TypeScript. This server secures its API endpoints with JWT authentication. The API differentiates between two user roles: Admin and User. Admins have full access to all routes, while Users are restricted to user-specific routes. Access to the data requires a valid token; without one, the user receives a 401 Unauthorized error. An invalid token results in a 403 Forbidden error. Users who attempt to access admin-only routes also encounter a 403 Forbidden error, indicating they lack the necessary permissions. The API supports the following endpoints:
+- Deployment : Vercel
 
 The api has the following endpoints:
 API Endpoints:
 
-- /api/bikes
+- /api/auth
 - /api/users
+- /api/bikes
 - /api/rentals
 
+## Clone the repository
+
+**Follow this simple step to clone the project:**
+
+```bash
+git clone  https://github.com/GGTuran/bike-rental-service-server.git
+cd bike-rental-service-server
+```
+
+**Now install the dependencies of the project:**
+
+```bash
+npm install
+```
+
+## Set up the server
+
+**Set up the environment variables in .env file**
+
+```
+PORT = 5000
+DATABASE_URL=your_own_mongodb_uri
+BCRYPT_SALT_ROUNDS= any number
+JWT_ACCESS_SECRET= Your JWT Secret
+JWT_ACCESS_EXPIRES= Your Jwt Token Expire time
+```
+
+**You can compile typescript**
+
+```
+npm run build
+```
+
+## Start the server
+
+**You can run the server in development mode**
+
+```
+npm run start:dev
+```
+
+**Or you can start the server by running the js files which is recommended**
+
+```
+npm run start:prod
+```
 
 
-more details on route are
-
-## Details on routes
-
-```json
-
-  {
-  "routes": {
-    "Auth Routes":{
-        "Sign Up": {
-        "method": "POST",
-        "route": "/api/auth/signup"
-      },
-      "Login": {
-        "method": "POST",
-        "route": "/api/auth/login"
-      },
-    }
-    "User Routes": {
-      "Get Profile": {
-        "method": "GET",
-        "route": "/api/users/me"
-      },
-      "Update Profile": {
-        "method": "PUT",
-        "route": "/api/users/me"
-      }
-    },
-    "Bike Routes": {
-      "Create Bike": {
-        "method": "POST",
-        "route": "/api/bikes"
-      },
-      "Get All Bikes": {
-        "method": "GET",
-        "route": "/api/bikes"
-      },
-      "Update Bike": {
-        "method": "PUT",
-        "route": "/api/bikes/:id"
-      },
-      "Delete Bike": {
-        "method": "DELETE",
-        "route": "/api/bikes/:id"
-      }
-    },
-    "Rental Routes": {
-      "Create Rental": {
-        "method": "POST",
-        "route": "/api/rentals"
-      },
-      "Return Bike": {
-        "method": "PUT",
-        "route": "/api/rentals/:id/return"
-      },
-      "Get All Rentals for User": {
-        "method": "GET",
-        "route": "/api/rentals"
-      }
-    }
-  }
-}
 
 
 ```
@@ -138,3 +133,94 @@ modules
 │   ├── user.routes.ts
 │   └── user.service.ts
 ```
+
+## Base URL
+
+The base URL for all API endpoints is: `https://your-api-url.com`
+
+## Authentication Routes
+
+### Sign Up
+
+- **Method**: `POST`
+- **Route**: `/api/auth/signup`
+- **Description**: Register a new user.
+
+### Login
+
+- **Method**: `POST`
+- **Route**: `/api/auth/login`
+- **Description**: Authenticate a user and return a JWT token.
+
+## User Routes
+
+### Get Profile
+
+- **Method**: `GET`
+- **Route**: `/api/users/me`
+- **Description**: Retrieve the profile information of the authenticated user.
+
+### Update Profile
+
+- **Method**: `PUT`
+- **Route**: `/api/users/me`
+- **Description**: Update the profile information of the authenticated user.
+
+## Bike Routes
+
+### Create Bike
+
+- **Method**: `POST`
+- **Route**: `/api/bikes`
+- **Description**: Add a new bike to the system (Admin only).
+
+### Get All Bikes
+
+- **Method**: `GET`
+- **Route**: `/api/bikes`
+- **Description**: Retrieve a list of all available bikes.
+
+### Update Bike
+
+- **Method**: `PUT`
+- **Route**: `/api/bikes/:id`
+- **Description**: Update the details of a specific bike (Admin only).
+
+### Delete Bike
+
+- **Method**: `DELETE`
+- **Route**: `/api/bikes/:id`
+- **Description**: Remove a specific bike from the system (Admin only).
+
+## Rental Routes
+
+### Create Rental
+
+- **Method**: `POST`
+- **Route**: `/api/rentals`
+- **Description**: Create a new rental for a bike.
+
+### Return Bike
+
+- **Method**: `PUT`
+- **Route**: `/api/rentals/:id/return`
+- **Description**: Mark a bike as returned for a specific rental(Admin only).
+
+### Get All Rentals for User
+
+- **Method**: `GET`
+- **Route**: `/api/rentals`
+- **Description**: Retrieve a list of all rentals for the authenticated user.
+
+## Error Handling
+
+The API uses standard HTTP status codes to indicate the success or failure of an API request. Common status codes include:
+
+- `200 OK`: The request was successful.
+- `201 Created`: The resource was successfully created.
+- `400 Bad Request`: The request could not be understood or was missing required parameters.
+- `401 Unauthorized`: Authentication failed or user does not have permissions for the requested operation.
+- `403 Forbidden`: Authentication succeeded but authenticated user does not have access to the requested resource.
+- `404 Not Found`: The requested resource could not be found.
+- `500 Internal Server Error`: An error occurred on the server.
+

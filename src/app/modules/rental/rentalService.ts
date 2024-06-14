@@ -30,7 +30,7 @@ const createRentalFromDB = async(req:Request)=>{
             throw new AppError(500,'Error updating isAvailable status')
         }
         //second session
-        const instance = new Rental(rentalData);            //had to it with instance method to not passing the req.body in an array 
+        const instance = new Rental(rentalData);            //had to do it with instance method to not passing the req.body in an array 
         instance.$session(session);
         const result = await instance.save()                //saving to database
         if(!result){
@@ -56,6 +56,9 @@ const returnRentalIntoDB = async(id:string)=>{
     } 
     //searching the bike which is rented
     const bike = await Bike.findById(borrowedBike?.bikeId);
+    if(!bike){
+        throw new AppError(404,'Bike not found');
+    }
 
     //transaction and rollback as there is two database write operation
     const session = await mongoose.startSession();
@@ -67,18 +70,16 @@ const returnRentalIntoDB = async(id:string)=>{
 
         //calculation part
         const totalCost = getDifference(startTime,returnTime) * (bike?.pricePerHour as number);
-
-        // console.log('utility' ,getHours(startTime,returnTime), bike?.pricePerHour ,totalCost)
-        // console.log(duration,returnTime.getHours(), startTime.getHours(),totalCost);
         //session one
         const rentalReturn = await Rental.findByIdAndUpdate( id, {returnTime:returnTime, totalCost:totalCost, isReturned:true }, {new:true,session});
         //session two
         const updateAvailability = await Bike.findByIdAndUpdate(borrowedBike?.bikeId, { isAvailable:true}, {new:true,session});
-
+        //commit the transaction
         await session.commitTransaction();
         await session.endSession();
         return rentalReturn;
     } catch (error) {
+        //if there is any error abort the transaction
         await session.abortTransaction();
         await session.endSession();
         throw new AppError(500,'Error returning bike')

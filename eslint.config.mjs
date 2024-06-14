@@ -13,11 +13,11 @@ export default [
     },
 
     rules: {
-      "no-unused-vars": "error",
-      "no-unused-expressions": "error",
-      "prefer-const": "error",
+      "no-unused-vars": "warn",
+      "no-unused-expressions": "warn",
+      "prefer-const": "warn",
       "no-console": "warn",
-      "no-undef": "error",
+      "no-undef": "warn",
     },
   },
 

@@ -14,15 +14,22 @@ const getAllBikeFromDB = async () => {
 
 const updateBikeIntoDB = async(id:string , payload:Partial<TBike>)=>{
     const bike = await Bike.findById(id);
+    //if bike doesn't exist in database throwing an error
     if(!bike){
         throw new AppError(404,'Bike not found')
     }
     const result = await Bike.findByIdAndUpdate({_id:id}, payload, {new:true});
-    console.log('service',result)
+    // console.log('service',result)
     return result;
 }
 
 const deleteBikeFromDB = async(id:string)=>{
+    const bike = await Bike.findById(id);
+       //if bike doesn't exist in database throwing an error
+    if(!bike){
+        throw new AppError(404,'Bike not found')
+    }
+    //updating the bike info for returning it as a response to the client
     const updateAvailability = await Bike.findByIdAndUpdate({_id:id}, {isAvailable:false}, {new:true});
     const result = await Bike.findByIdAndDelete(id);
     return result;
