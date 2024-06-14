@@ -4,7 +4,7 @@ import { RentalServices } from "./rentalService";
 
 const createRental = catchAsync(async(req,res)=>{
     const result = await RentalServices.createRentalFromDB(req);        //only using req will extract the user data
-    console.log(result);
+    // console.log(result);
     sendResponse(res,{
         success:true,
         statusCode:200,
@@ -17,7 +17,7 @@ const createRental = catchAsync(async(req,res)=>{
 const returnRental = catchAsync(async(req,res)=>{
     const { id } = req.params;
     const result = await RentalServices.returnRentalIntoDB(id);
-    console.log('controller', id, result);
+    // console.log('controller', id, result);
     sendResponse(res,{
         success:true,
         statusCode:200,
@@ -28,7 +28,7 @@ const returnRental = catchAsync(async(req,res)=>{
 
 const getAllRental = catchAsync(async(req,res)=>{
     const result = await RentalServices.getAllRentalFromDB(req);
-    console.log('controller get all rental',req);
+    // console.log('controller get all rental',req);
     if(result.length === 0){
         return res.status(404).json({
             success:false,

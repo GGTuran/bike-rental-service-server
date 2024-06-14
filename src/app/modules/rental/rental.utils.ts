@@ -7,7 +7,7 @@ function getDifference(startDate : any, endDate:any):number{
     const startTime = new Date(startDate).getTime();
     const endTime = new Date(endDate).getTime();
     const difference = endTime - startTime;
-    const differenceInHours = Math.floor(difference/(1000*60*60))
+    const differenceInHours = Math.ceil(difference/(1000*60*60))
     return differenceInHours;
 };
 

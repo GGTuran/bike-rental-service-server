@@ -136,7 +136,7 @@ modules
 
 ## Base URL
 
-The base URL for all API endpoints is: `https://your-api-url.com`
+The base URL for all API endpoints is: `https://bike-rental-service-server.vercel.app/`
 
 ## Authentication Routes
 
