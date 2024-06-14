@@ -4,7 +4,7 @@ import {  TErrorMessages, TGenericErrorResponse } from "../interface/error";
 const handleCastError = (err:mongoose.Error.CastError):TGenericErrorResponse =>{
     const errorMessages:TErrorMessages = [
         {
-            path:err.path,
+            path:'',
             message:err.message,
         },
     ];
@@ -12,7 +12,7 @@ const handleCastError = (err:mongoose.Error.CastError):TGenericErrorResponse =>{
     const statusCode = 400;
     return {
         statusCode,
-        message:'Invalid ID',
+        message:err.message,
         errorMessages,
     };
 };

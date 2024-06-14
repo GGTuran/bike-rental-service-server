@@ -10,6 +10,11 @@ const app: Application = express();
 app.use(express.json());
 app.use(cors());
 
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Bike Rental Service Server");
+});
+
 //application route
 app.use('/api',router);
 
@@ -17,12 +22,7 @@ app.use('/api',router);
 app.use(globalErrorHandler)
 
 //not found error handler
-app.use(notFoundError)
-
-app.get("/", (req: Request, res: Response) => {
-  const a = 10;
-  res.send(a);
-});
+app.all("*",notFoundError)
 
 
 

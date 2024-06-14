@@ -16,7 +16,7 @@ const handleDUplicateError = (err:any):TGenericErrorResponse =>{
     const statusCode = 400;
     return{
         statusCode,
-        message:'Cast error',
+        message:err.errorResponse.errmsg,
         errorMessages,
     };
 };

@@ -8,30 +8,39 @@ import getDifference from "./rental.utils";
 
 
 const createRentalFromDB = async(req:Request)=>{
-    const rental:TRental = req.body;
-    rental.userId = req.user.userId;
-    const bike = await Bike.findById(rental.bikeId);
-    console.log('service',rental,rental.userId,bike)
+    //extract the data
+    const rentalData:TRental = req.body;
+    //set user id
+    rentalData.userId = req.user.userId;
+    //searching the bike from the extracted data
+    const bike = await Bike.findById(rentalData.bikeId);
+    console.log('service',rentalData,rentalData.userId,bike)
     if(!bike?.isAvailable){
         throw new AppError(400,"Bike is already rented")
     };
 
+    //implementing transaction and rollback as there is two database write operation
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
-        const updateAvailability = await Bike.findByIdAndUpdate(rental.bikeId, {isAvailable:false}, {new:true,session});
+        //while renting the isAvailable status should be updated to false
+        //first session
+        const updateAvailability = await Bike.findByIdAndUpdate(rentalData.bikeId, {isAvailable:false}, {new:true,session});
         if(!updateAvailability){
             throw new AppError(500,'Error updating isAvailable status')
         }
-        //cerate a rental
-        const result = await Rental.create([req.body], {session:session});
+        //cerate a rental and it should be in an object
+        //second session
+        const result = await Rental.create(req.body);
         if(!result){
             throw new AppError(500,'Error creating a rental')
         }
+        //after being successful we need to commit the transaction and return the result
         await session.commitTransaction();
         await session.endSession();
         return result;
     } catch (error) {
+        //if any error occurs we will abort the transaction and return an error
         await session.abortTransaction();
         await session.endSession();
         throw new AppError(500, 'Error creating a rental')
@@ -73,7 +82,7 @@ const returnRentalIntoDB = async(id:string)=>{
     }
 };
 
-const getAllRentalFromDB = async ()=>{
+const getAllRentalFromDB = async (req:Request)=>{
     const result = await Rental.find();
     return result;
 }

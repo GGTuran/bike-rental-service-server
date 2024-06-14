@@ -26,7 +26,7 @@ const loginUser = async(payload:TLoginUser) => {
 
     //creating access token
     const jwtPayload = {
-        userId:user._id,
+        userId:user?._id,
         email:user?.email,
         role:user?.role,
     };
