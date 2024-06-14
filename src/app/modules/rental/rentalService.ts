@@ -29,9 +29,10 @@ const createRentalFromDB = async(req:Request)=>{
         if(!updateAvailability){
             throw new AppError(500,'Error updating isAvailable status')
         }
-        //cerate a rental and it should be in an object
         //second session
-        const result = await Rental.create(req.body);
+        const instance = new Rental(rentalData);            //had to it with instance method to not passing the req.body in an array 
+        instance.$session(session);
+        const result = await instance.save()                //saving to database
         if(!result){
             throw new AppError(500,'Error creating a rental')
         }
@@ -40,7 +41,7 @@ const createRentalFromDB = async(req:Request)=>{
         await session.endSession();
         return result;
     } catch (error) {
-        //if any error occurs we will abort the transaction and return an error
+        //if any error occurs we will abort the transaction and return an error response
         await session.abortTransaction();
         await session.endSession();
         throw new AppError(500, 'Error creating a rental')
@@ -53,8 +54,10 @@ const returnRentalIntoDB = async(id:string)=>{
     if(!borrowedBike){
         throw new AppError(404,'Rental not found');
     } 
+    //searching the bike which is rented
     const bike = await Bike.findById(borrowedBike?.bikeId);
 
+    //transaction and rollback as there is two database write operation
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
@@ -63,13 +66,13 @@ const returnRentalIntoDB = async(id:string)=>{
         const returnTime = new Date();
 
         //calculation part
-        const totalCost = getDifference(startTime,returnTime) * (bike?.pricePerHour as number)
+        const totalCost = getDifference(startTime,returnTime) * (bike?.pricePerHour as number);
 
         // console.log('utility' ,getHours(startTime,returnTime), bike?.pricePerHour ,totalCost)
         // console.log(duration,returnTime.getHours(), startTime.getHours(),totalCost);
-
+        //session one
         const rentalReturn = await Rental.findByIdAndUpdate( id, {returnTime:returnTime, totalCost:totalCost, isReturned:true }, {new:true,session});
-
+        //session two
         const updateAvailability = await Bike.findByIdAndUpdate(borrowedBike?.bikeId, { isAvailable:true}, {new:true,session});
 
         await session.commitTransaction();
@@ -83,7 +86,8 @@ const returnRentalIntoDB = async(id:string)=>{
 };
 
 const getAllRentalFromDB = async (req:Request)=>{
-    const result = await Rental.find();
+    const me = req.user;
+    const result = await Rental.find({userId:me.userId});
     return result;
 }
 

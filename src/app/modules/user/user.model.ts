@@ -21,13 +21,13 @@ const userSchema = new Schema<TUser>({
       type: String,
       required: true,
     },
-    role: {
-      type: String,
-      enum: ['admin', 'user'],
-    },
     address: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
     },
   },  {
     timestamps: true,

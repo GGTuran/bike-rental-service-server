@@ -31,10 +31,10 @@ const getAllBike = catchAsync(async(req,res)=>{
 
 const updateBike = catchAsync(async(req,res)=>{
     const { id } = req.params;
-    console.log(req.params);
+    // console.log(req.params);
     const updatedData = req.body;
     const result = await BikeServices.updateBikeIntoDB( id, updatedData);
-    console.log('controller', id,updatedData,result);
+    // console.log('controller', id,updatedData,result);
     sendResponse(res,{
         success:true,
         statusCode:200,

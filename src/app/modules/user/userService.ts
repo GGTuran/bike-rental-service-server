@@ -3,7 +3,7 @@ import { User } from "./user.model";
 import AppError from "../../errors/AppError";
 
 const GetProfileFromDB = async (req:Request) => {
-    const user = req.user;
+    const user = req.user;     
     const findUser = await User.findById(user?.userId);
     console.log('service' ,findUser);
     if(!findUser){
@@ -24,7 +24,7 @@ const UpdateProfileIntoDB = async(req:Request)=>{
         throw new AppError(404, 'User not found');
     }
 
-    const updatedUser = await User.findByIdAndUpdate(user?.userId, updatedData, {new:true});
+    const updatedUser = await User.findByIdAndUpdate(user?.userId, updatedData, {new:true}).select('-createdAt -updatedAt -__v');
     if(!updatedUser){
         throw new AppError(404, 'Error updating user')
     }

@@ -14,7 +14,6 @@ const signUp = catchAsync(async(req,res)=>{
 
 const login = catchAsync(async(req,res)=>{
     const { token , user} = await AuthServices.loginUser(req.body);
-
     sendResponse(res,{
         success:true,
         statusCode:200,

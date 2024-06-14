@@ -4,7 +4,7 @@ import { UserServices } from "./userService";
 
 const GetProfile = catchAsync(async(req, res)=>{
     const result = await UserServices.GetProfileFromDB(req);
-    // if(){}
+    
     console.log('controller',result);
     sendResponse(res,{
         success:true,
@@ -19,7 +19,7 @@ const UpdateProfile = catchAsync(async(req,res)=>{
     sendResponse(res,{
         success:true,
         statusCode:200,
-        message:'User profile updated successfully',
+        message:'Profile updated successfully',
         data:result
     });
 });

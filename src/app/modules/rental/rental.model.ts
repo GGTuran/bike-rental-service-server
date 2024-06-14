@@ -29,6 +29,9 @@ const rentalSchema = new Schema<TRental>({
         default: false,
     },
 },
+{
+    versionKey:false,
+}
 );
 
 export const Rental = model<TRental>('Rental',rentalSchema);

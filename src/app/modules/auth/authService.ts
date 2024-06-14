@@ -12,7 +12,7 @@ const signUp = async(payload:TUser) => {
 };
 
 const loginUser = async(payload:TLoginUser) => {
-    const user = await User.findOne({ email : payload?.email });
+    const user = await User.findOne({ email : payload?.email }).select('-createdAt -updatedAt -__v');
     //checking if the user exist or not 
     if(!user){
         throw new AppError(400,'User does not exist!');

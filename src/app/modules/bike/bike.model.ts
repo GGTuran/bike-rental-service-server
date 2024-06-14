@@ -39,6 +39,9 @@ const BikeSchema = new Schema<TBike>({
         trim: true,
     },
 },
+{
+    versionKey:false,
+}
 );
 
 //hiding deleted bikes

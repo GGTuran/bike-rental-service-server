@@ -7,8 +7,8 @@ const createUserZod = z.object({
       email: z.string({ required_error: 'Email is required' }).email({message: "Invalid email"}),
       password: z.string({ required_error: 'Password is required' }),
       phone: z.string({ required_error: 'Phone Number is required' }),
-      role: z.nativeEnum(USER_ROLE),
       address: z.string({ required_error: 'Address is required' }),
+      role: z.nativeEnum(USER_ROLE),
     }),
   });
 
@@ -18,8 +18,8 @@ const createUserZod = z.object({
       email: z.string({ required_error: 'Email is required' }).email({message: "Invalid email"}).optional(),
       password: z.string({ required_error: 'Password is required' }).optional(),
       phone: z.string({ required_error: 'Phone Number is required' }).optional(),
-      role: z.nativeEnum(USER_ROLE).optional(),
       address: z.string({ required_error: 'Address is required' }).optional(),
+      role: z.nativeEnum(USER_ROLE).optional(),
     }),
   });  
   
