@@ -6,5 +6,6 @@ export type TErrorMessages = {
 export type TGenericErrorResponse = {
     statusCode: number;
     message: string;
-    errorMessages: TErrorMessages
+    errorMessages: TErrorMessages;
+    stack?:string;
 };

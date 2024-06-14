@@ -13,6 +13,7 @@ const handleZodError = (err:ZodError):TGenericErrorResponse=>{
         statusCode,
         message:'Validation Error',
         errorMessages,
+        stack:err.stack
     };
 };
 

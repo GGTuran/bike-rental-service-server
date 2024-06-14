@@ -14,6 +14,7 @@ const handleValidationError = (err:mongoose.Error.ValidationError):TGenericError
         statusCode,
         message:'Validation Error',
         errorMessages,
+        stack:err.stack,
     };
 
 };

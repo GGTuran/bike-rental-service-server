@@ -14,6 +14,7 @@ const handleCastError = (err:mongoose.Error.CastError):TGenericErrorResponse =>{
         statusCode,
         message:err.message,
         errorMessages,
+        stack:err.stack,
     };
 };
 

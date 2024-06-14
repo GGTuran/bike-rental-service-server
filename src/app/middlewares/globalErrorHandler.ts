@@ -13,30 +13,35 @@ const globalErrorHandler:ErrorRequestHandler = (err, req, res, next) =>{
     let errorMessages: TErrorMessages = [
         {
             path:'',
-            message:'SOmething went wrong!',
+            message:'Something went wrong!',
         },
     ];
+    let stack = err.stack || 'No stack trace available'
 
     if(err instanceof ZodError){
         const simplifiedError = handleZodError(err);
         statusCode = simplifiedError?.statusCode;
         message = simplifiedError?.message;
         errorMessages = simplifiedError?.errorMessages;
+        stack = simplifiedError?.stack;
     } else if (err?.name === 'ValidationError') {
         const simplifiedError = handleValidationError(err);
         statusCode = simplifiedError?.statusCode;
         message = simplifiedError?.message;
         errorMessages = simplifiedError?.errorMessages;
+        stack = simplifiedError?.stack;
     } else if (err?.name === 'CastError') {
         const simplifiedError = handleCastError(err);
         statusCode = simplifiedError?.statusCode;
         message = simplifiedError?.message;
         errorMessages = simplifiedError?.errorMessages;
+        stack = simplifiedError?.stack || stack
     } else if (err?.code === 11000) {
         const simplifiedError = handleCastError(err);
         statusCode = simplifiedError?.statusCode;
         message = simplifiedError?.message;
         errorMessages = simplifiedError?.errorMessages;
+        stack = simplifiedError?.stack;
     } else if (err instanceof AppError) {
         statusCode = err?.statusCode;
         message = err?.message;
@@ -46,6 +51,7 @@ const globalErrorHandler:ErrorRequestHandler = (err, req, res, next) =>{
                 message: err?.message,
             },
         ];
+        stack = err?.stack || stack;
     } 
     else if (err instanceof Error) {
         message = err?.message;
@@ -55,6 +61,7 @@ const globalErrorHandler:ErrorRequestHandler = (err, req, res, next) =>{
                 message:err?.message,
             },
         ];
+        stack = err?.stack || stack;
     }
 
 
@@ -63,7 +70,7 @@ const globalErrorHandler:ErrorRequestHandler = (err, req, res, next) =>{
         success:false,
         message,
         errorMessages,
-        stack: config.NODE_ENV === 'development' ? err?.stack : null,
+        stack,
     });
 
 

@@ -18,6 +18,7 @@ const handleDUplicateError = (err:any):TGenericErrorResponse =>{
         statusCode,
         message:err.errorResponse.errmsg,
         errorMessages,
+        stack:err.stack
     };
 };
 
