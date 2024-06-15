@@ -2,6 +2,8 @@
 
 ## So,here is a backend server for renting bikes.It will allow someone to rent a bike for a time being and return it as his will of time,with payment.This system is so helpful for the tourist
 
+
+
 ## Live URL
 
 [https://bike-rental-service-server.vercel.app/](https://bike-rental-service-server.vercel.app/)
@@ -29,6 +31,11 @@ API Endpoints:
 - /api/bikes
 - /api/rentals
 
+### Prerequisites
+
+- Node.js (v14 or higher)
+- MongoDB
+
 ## Clone the repository
 
 **Follow this simple step to clone the project:**
@@ -43,6 +50,8 @@ cd bike-rental-service-server
 ```bash
 npm install
 ```
+
+
 
 ## Set up the server
 
