@@ -14,6 +14,9 @@ const createRentalFromDB = async(req:Request)=>{
     rentalData.userId = req.user.userId;
     //searching the bike from the extracted data
     const bike = await Bike.findById(rentalData.bikeId);
+    if(!bike){
+        throw new AppError(404,'Bike not found')
+    }
     // console.log('service',rentalData,rentalData.userId,bike)
     if(!bike?.isAvailable){
         throw new AppError(400,"Bike is already rented")
