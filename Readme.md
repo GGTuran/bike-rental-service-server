@@ -1,8 +1,6 @@
 # Bike Rental System Backend
 
-## So,here is a backend server for renting bikes.It will allow someone to rent a bike for a time being and return it as his will of time,with payment.This system is so helpful for the tourist
-
-
+## So,here is a backend server for renting bikes.It will allow someone to rent a bike for a time being and return it as his/her will of time,with payment.This system is so helpful for the tourist.This Backend server comes with some exciting features,such as authentication-authorization for security,ensuring proper bike management by an admin assigned to those tasks,better renting system of bikes.User data will be secured.
 
 ## Live URL
 
