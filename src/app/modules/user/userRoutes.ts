@@ -11,7 +11,7 @@ router.get(
     UserControllers.GetProfile
 );
 
-router.put(
+router.patch(
     '/me',
     auth(USER_ROLE.admin, USER_ROLE.user),
     UserControllers.UpdateProfile

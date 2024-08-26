@@ -1,3 +1,4 @@
+import config from "../../config";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { AuthServices } from "./authService";
@@ -14,6 +15,16 @@ const signUp = catchAsync(async(req,res)=>{
 
 const login = catchAsync(async(req,res)=>{
     const { token , user} = await AuthServices.loginUser(req.body);
+    const result = await AuthServices.loginUser(req.body);
+    const { refreshToken } = result;
+
+    res.cookie('refreshToken', refreshToken, {
+        secure: config.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+    });
+
     sendResponse(res,{
         success:true,
         statusCode:200,

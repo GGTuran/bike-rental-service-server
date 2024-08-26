@@ -18,7 +18,7 @@ router.get('/', BikeControllers.getAllBike);
 
 router.get('/:id', BikeControllers.getSingleBike);
 
-router.put(
+router.patch(
     '/:id',
     auth(USER_ROLE.admin),
     validate(BikeValidations.updateBikeZod),
