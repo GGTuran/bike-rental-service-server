@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request } from "express";
 import { TRental } from "./rental.interface";
 import { Bike } from "../bike/bike.model";
