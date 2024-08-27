@@ -28,7 +28,7 @@ router.get(
 
 router.get(
     '/admin',
-    // auth(USER_ROLE.admin),
+    auth(USER_ROLE.admin),
     RentalControllers.rentals,
 );
 

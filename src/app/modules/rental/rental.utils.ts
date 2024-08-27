@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import AppError from "../../errors/AppError";
 
 function getDifference(startDate : any, endDate:any):number{
