@@ -24,7 +24,43 @@ const UpdateProfile = catchAsync(async(req,res)=>{
     });
 });
 
+const GetAllUsers = catchAsync(async(req, res) =>{
+    const result = await UserServices.GetAllUsersFromDB();
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:'User profiles retrieved successfully',
+        data:result,
+    });
+});
+
+const PromoteUserToAdmin = catchAsync(async (req, res) =>{
+    const { id } = req.params;
+    const result = await UserServices.PromoteUserToAdminInDB(id);
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:'Profile updated successfully',
+        data:result
+    });
+
+});
+
+const DeleteUser = catchAsync(async(req,res)=>{
+    const { id } = req.params;
+    const result = await UserServices.DeleteUserFromDB(id);
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:"User deleted successfully",
+        data:result,
+    })
+})
+
 export const UserControllers = {
     GetProfile,
     UpdateProfile,
+    GetAllUsers,
+    PromoteUserToAdmin,
+    DeleteUser,
 }

@@ -33,9 +33,43 @@ const UpdateProfileIntoDB = async(req:Request)=>{
     }
 
     return updatedUser;
-}
+};
+
+const GetAllUsersFromDB = async() =>{
+    const result = await User.find();
+    return result;
+};
+
+const PromoteUserToAdminInDB = async (id: string) => {
+    const user = await User.findById(id);
+    //checking if the user exist in the database
+    if(!user){
+        throw new AppError(404, 'User not found');
+    };
+
+    //setting user role to admin
+    user.role = 'admin';
+    await user.save();
+    return user;
+};
+
+const DeleteUserFromDB = async (id: string) => {
+    const user = await User.findById(id);
+    //checking if the user exist in the database
+    if(!user){
+        throw new AppError(404, 'User not found');
+    };
+
+    const result = await User.findByIdAndDelete(id);
+    return result;
+} 
+
+
 
 export const UserServices = {
     GetProfileFromDB,
-    UpdateProfileIntoDB
+    UpdateProfileIntoDB,
+    GetAllUsersFromDB,
+    PromoteUserToAdminInDB,
+    DeleteUserFromDB,
 }

@@ -17,5 +17,23 @@ router.patch(
     UserControllers.UpdateProfile
 );
 
+router.get(
+    '/',
+    auth(USER_ROLE.admin),
+    UserControllers.GetAllUsers,
+);
+
+router.patch(
+    '/promote/:id',
+    auth(USER_ROLE.admin),
+    UserControllers.PromoteUserToAdmin,
+);
+
+router.delete(
+    '/:id',
+    auth(USER_ROLE.admin),
+    UserControllers.DeleteUser,
+);
+
 
 export const UserRoutes = router;
