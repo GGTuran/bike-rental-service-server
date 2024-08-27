@@ -36,7 +36,7 @@ const UpdateProfileIntoDB = async(req:Request)=>{
 };
 
 const GetAllUsersFromDB = async() =>{
-    const result = await User.find();
+    const result = await User.find({role: 'user'});
     return result;
 };
 

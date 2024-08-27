@@ -44,8 +44,26 @@ const getAllRental = catchAsync(async(req,res)=>{
     });
 });
 
+const rentals = catchAsync(async (req, res) => {
+    const result = await RentalServices.rentalsFromDB();
+    if(result.length === 0){
+        return res.status(404).json({
+            success:false,
+            message:"No Data Found",
+            data:[]
+        });
+    }
+    sendResponse(res,{
+        success:true,
+        statusCode:200,
+        message:"Rentals retrieved successfully",
+        data:result,
+    });
+})
+
 export const RentalControllers = {
     createRental,
     returnRental,
     getAllRental,
+    rentals,
 }

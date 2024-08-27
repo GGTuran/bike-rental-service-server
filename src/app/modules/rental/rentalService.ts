@@ -96,8 +96,14 @@ const getAllRentalFromDB = async (req:Request)=>{
     return result;
 }
 
+const rentalsFromDB = async() => {
+    const result = await Rental.find().populate('userId').populate('bikeId');
+    return result;
+}
+
 export const RentalServices = {
     createRentalFromDB,
     returnRentalIntoDB,
     getAllRentalFromDB,
+    rentalsFromDB,
 }

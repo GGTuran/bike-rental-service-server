@@ -21,9 +21,15 @@ router.put(
 );
 
 router.get(
-    '/',
+    '/user',
     auth(USER_ROLE.user),
     RentalControllers.getAllRental
+);
+
+router.get(
+    '/admin',
+    // auth(USER_ROLE.admin),
+    RentalControllers.rentals,
 );
 
 export const RentalRoutes = router;
