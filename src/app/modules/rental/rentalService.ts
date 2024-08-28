@@ -6,6 +6,8 @@ import AppError from "../../errors/AppError";
 import mongoose from "mongoose";
 import { Rental } from "./rental.model";
 import getDifference from "./rental.utils";
+import { initiatePayment } from "../payment/payment.utils";
+import { User } from "../user/user.model";
 
 
 const createRentalFromDB = async(req:Request)=>{
@@ -13,6 +15,21 @@ const createRentalFromDB = async(req:Request)=>{
     const rentalData:TRental = req.body;
     //set user id
     rentalData.userId = req.user.userId;
+
+
+
+    //setting up transaction
+    const transactionId = `TXN-${Date.now()}`;
+    rentalData.transactionId = transactionId;
+    console.log(transactionId);
+    //finding user
+    const user = await User.findById(req.user.userId);
+    // console.log(user,'man');
+    
+    
+
+
+
     //searching the bike from the extracted data
     const bike = await Bike.findById(rentalData.bikeId);
     if(!bike){
@@ -36,14 +53,32 @@ const createRentalFromDB = async(req:Request)=>{
         //second session
         const instance = new Rental(rentalData);            //had to do it with instance method to not passing the req.body in an array 
         instance.$session(session);
-        const result = await instance.save()                //saving to database
+        const result = await instance.save();               //saving to database
+
+        //payment
+        const paymentData = {
+            transactionId,
+            amount: 100,
+            customerName:user?.name,
+            customerEmail: user?.email,
+            customerPhone: user?.phone,
+            customerAddress: user?.address,
+        };
+        // console.log(paymentData, 'backend')
+        const paymentSession = await initiatePayment(paymentData);
+        console.log(paymentSession);
+
+
         if(!result){
             throw new AppError(500,'Error creating a rental')
         }
         //after being successful we need to commit the transaction and return the result
         await session.commitTransaction();
         await session.endSession();
-        return result;
+        return {
+            result,
+            paymentSession,
+        }
     } catch (error) {
         //if any error occurs we will abort the transaction and return an error response
         await session.abortTransaction();
@@ -92,7 +127,7 @@ const returnRentalIntoDB = async(id:string)=>{
 
 const getAllRentalFromDB = async (req:Request)=>{
     const me = req.user;
-    const result = await Rental.find({userId:me.userId});
+    const result = await Rental.find({userId:me.userId}).populate('userId').populate('bikeId');
     return result;
 }
 
