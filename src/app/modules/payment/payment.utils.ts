@@ -8,7 +8,7 @@ export const initiatePayment = async (paymentData: any) => {
             store_id: config.store_id,
             signature_key: config.signature_key,
             tran_id: paymentData.transactionId,
-            success_url: `http://localhost:5000/api/payment/confirmation`,
+            success_url: `http://localhost:5000/api/payment/confirmation?transactionId=${paymentData.transactionId}&status=success`,
             fail_url: `http://localhost:5000/api/payment/confirmation?status=failed`,
             cancel_url: "http://localhost:5173/",
             amount: paymentData.amount,
@@ -33,3 +33,20 @@ export const initiatePayment = async (paymentData: any) => {
 }
 
 // 
+export const verifyPayment = async (tnxId: string) => {
+    try {
+        const response = await axios.get(config.payment_verify_url!, {
+            params: {
+                store_id: config.store_id,
+                signature_key: config.signature_key,
+                type: "json",
+                request_id: tnxId
+            }
+        });
+
+        return response.data;
+    }
+    catch (err) {
+        throw new Error("Payment validation failed!")
+    }
+}

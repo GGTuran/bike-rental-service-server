@@ -14,5 +14,6 @@ export default {
   jwt_refresh_expires_in:process.env.JWT_REFRESH_EXPIRES_IN ,
   store_id:process.env.STORE_ID,
   signature_key:process.env.SIGNATURE_KEY,
-  payment_url:process.env.PAYMENT_URL
+  payment_url:process.env.PAYMENT_URL,
+  payment_verify_url: process.env.PAYMENT_VERIFY_URL,
 };

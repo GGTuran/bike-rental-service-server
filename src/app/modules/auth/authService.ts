@@ -30,6 +30,9 @@ const loginUser = async(payload:TLoginUser) => {
         userId:user?._id,
         email:user?.email,
         role:user?.role,
+        name:user?.name,
+        phone:user?.phone,
+        address:user?.address,
     };
 
     const token = jwt.sign(jwtPayload, config.JWT_ACCESS_SECRET as string,{
@@ -41,6 +44,9 @@ const loginUser = async(payload:TLoginUser) => {
         userId:user?._id,
         email:user?.email,
         role:user?.role,
+        name:user?.name,
+        phone:user?.phone,
+        address:user?.address,
     };
 
     const refreshToken = jwt.sign(refreshPayload, config.JWT_REFRESH_SECRET as string,{
@@ -74,6 +80,9 @@ const refreshToken = async (token:string) => {
         userId:user?._id,
         email:user?.email,
         role:user?.role,
+        name:user?.name,
+        phone:user?.phone,
+        address:user?.address,
     };
 
     const accessToken = jwt.sign(jwtPayload, config.JWT_ACCESS_SECRET as string,{

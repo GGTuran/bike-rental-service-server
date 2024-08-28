@@ -128,7 +128,30 @@ const returnRentalIntoDB = async(id:string)=>{
 const getAllRentalFromDB = async (req:Request)=>{
     const me = req.user;
     const result = await Rental.find({userId:me.userId}).populate('userId').populate('bikeId');
-    return result;
+
+    const transactionId = `TXN-${Date.now()}`;
+
+    
+
+    const paymentData = {
+        transactionId,
+        amount: 100,
+        customerName:me?.name,
+        customerEmail: me?.email,
+        customerPhone: me?.phone,
+        customerAddress: me?.address,
+    };
+
+    console.log(paymentData,'backend')
+    // console.log(paymentData, 'backend')
+    const paymentSession = await initiatePayment(paymentData);
+    console.log(paymentSession);
+
+
+    return {
+        result,
+        paymentSession,
+    };
 }
 
 const rentalsFromDB = async() => {
@@ -136,9 +159,34 @@ const rentalsFromDB = async() => {
     return result;
 }
 
+const payRentals = async(req:Request) =>{
+
+    const transactionId = `TXN-${Date.now()}`;
+
+    const me = req.user;
+
+    const paymentData = {
+        transactionId,
+        amount: 100,
+        customerName:me?.name,
+        customerEmail: me?.email,
+        customerPhone: me?.phone,
+        customerAddress: me?.address,
+    };
+
+    console.log(paymentData)
+    // console.log(paymentData, 'backend')
+    const paymentSession = await initiatePayment(paymentData);
+    console.log(paymentSession);
+
+    return paymentSession;
+
+}
+
 export const RentalServices = {
     createRentalFromDB,
     returnRentalIntoDB,
     getAllRentalFromDB,
     rentalsFromDB,
+    payRentals,
 }

@@ -32,4 +32,9 @@ router.get(
     RentalControllers.rentals,
 );
 
+router.post(
+    '/pay',
+    RentalControllers.payRentals
+);
+
 export const RentalRoutes = router;
