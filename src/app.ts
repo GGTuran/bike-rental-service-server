@@ -9,7 +9,7 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(cookieParser())
-app.use(cors({ origin: 'http://localhost:5173',credentials:true }));
+app.use(cors({ origin: 'https://home-of-bikes.vercel.app', credentials: true, methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', }));
 
 
 app.get("/", (req: Request, res: Response) => {
@@ -17,13 +17,13 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //application route
-app.use('/api',router);
+app.use('/api', router);
 
 //global error handler 
 app.use(globalErrorHandler)
 
 //not found error handler
-app.all("*",notFoundError)
+app.all("*", notFoundError)
 
 
 

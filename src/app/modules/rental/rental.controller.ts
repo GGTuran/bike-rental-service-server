@@ -29,7 +29,7 @@ const returnRental = catchAsync(async (req, res) => {
 const getAllRental = catchAsync(async (req, res) => {
     const result = await RentalServices.getAllRentalFromDB(req);
     // console.log('controller get all rental',req);
-    if (result.length === 0) {
+    if (result?.result?.length === 0) {
         return res.status(404).json({
             success: false,
             message: "No Data Found",

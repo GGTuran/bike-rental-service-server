@@ -21,7 +21,7 @@ const createRentalFromDB = async(req:Request)=>{
     //setting up transaction
     const transactionId = `TXN-${Date.now()}`;
     rentalData.transactionId = transactionId;
-    console.log(transactionId);
+    // console.log(transactionId);
     //finding user
     const user = await User.findById(req.user.userId);
     // console.log(user,'man');
@@ -66,7 +66,7 @@ const createRentalFromDB = async(req:Request)=>{
         };
         // console.log(paymentData, 'backend')
         const paymentSession = await initiatePayment(paymentData);
-        console.log(paymentSession);
+        // console.log(paymentSession);
 
 
         if(!result){
@@ -142,10 +142,10 @@ const getAllRentalFromDB = async (req:Request)=>{
         customerAddress: me?.address,
     };
 
-    console.log(paymentData,'backend')
+    // console.log(paymentData,'backend')
     // console.log(paymentData, 'backend')
     const paymentSession = await initiatePayment(paymentData);
-    console.log(paymentSession,'payment session');
+    // console.log(paymentSession,'payment session');
 
     const verifyResponse = await verifyPayment(transactionId);
     // console.log(verifyResponse, 'verify response');
@@ -181,10 +181,10 @@ const payRentals = async(req:Request) =>{
         customerAddress: me?.address,
     };
 
-    console.log(paymentData)
+    // console.log(paymentData)
     // console.log(paymentData, 'backend')
     const paymentSession = await initiatePayment(paymentData);
-    console.log(paymentSession);
+    // console.log(paymentSession);
 
     return paymentSession;
 

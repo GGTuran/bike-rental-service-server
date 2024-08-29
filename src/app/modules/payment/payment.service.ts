@@ -7,25 +7,25 @@ import { Rental } from "../rental/rental.model";
 
 const PaymentIntoDB = async (transactionId: string, status: string) => {
     const verifyResponse = await verifyPayment(transactionId);
-    console.log(verifyResponse);
+    // console.log(verifyResponse);
 
     let message = "";
 
-let updateStatus;
-  
-
-    console.log(verifyResponse.amount,'amount')
+    let updateStatus;
 
 
-    
+    // console.log(verifyResponse.amount,'amount')
 
- if (verifyResponse && verifyResponse.pay_status === 'Successful'  ) {
-       
+
+
+
+    if (verifyResponse && verifyResponse.pay_status === 'Successful') {
+
         message = "Successfully Paid!"
-      
+
     }
-   
-   
+
+
     else {
         message = "Payment Failed!"
     }
@@ -34,7 +34,7 @@ let updateStatus;
     let template = readFileSync(filePath, 'utf-8')
 
     template = template.replace('{{message}}', message)
-    
+
 
     return template;
 }

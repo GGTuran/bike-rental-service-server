@@ -8,9 +8,9 @@ export const initiatePayment = async (paymentData: any) => {
             store_id: config.store_id,
             signature_key: config.signature_key,
             tran_id: paymentData.transactionId,
-            success_url: `http://localhost:5000/api/payment/confirmation?transactionId=${paymentData.transactionId}&status=success`,
-            fail_url: `http://localhost:5000/api/payment/confirmation?status=failed`,
-            cancel_url: "http://localhost:5173/",
+            success_url: `https://bike-rental-service-server.vercel.app/api/payment/confirmation?transactionId=${paymentData.transactionId}&status=success`,
+            fail_url: `https://bike-rental-service-server.vercel.app/api/payment/confirmation?status=failed`,
+            cancel_url: "https://home-of-bikes.vercel.app/",
             amount: paymentData.amount,
             currency: "BDT",
             desc: "Merchant Registration Payment",
@@ -43,7 +43,7 @@ export const verifyPayment = async (tnxId: string) => {
                 request_id: tnxId
             }
         });
-        console.log(tnxId,'from utils')
+        // console.log(tnxId,'from utils')
 
         return response.data;
     }
