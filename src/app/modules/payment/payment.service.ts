@@ -3,6 +3,7 @@ import { join } from "path";
 // import { Rental } from "../rental/rental.model";
 import { verifyPayment } from "./payment.utils";
 import { readFileSync } from "fs";
+import { Rental } from "../rental/rental.model";
 
 const PaymentIntoDB = async (transactionId: string, status: string) => {
     const verifyResponse = await verifyPayment(transactionId);
@@ -10,9 +11,21 @@ const PaymentIntoDB = async (transactionId: string, status: string) => {
 
     let message = "";
 
-    if (verifyResponse && verifyResponse.pay_status === 'Successful') {
+let updateStatus;
+  
+
+    console.log(verifyResponse.amount,'amount')
+
+
+    
+
+ if (verifyResponse && verifyResponse.pay_status === 'Successful'  ) {
+       
         message = "Successfully Paid!"
+      
     }
+   
+   
     else {
         message = "Payment Failed!"
     }

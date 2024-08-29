@@ -4,13 +4,67 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment Confirmation</title>
+    <style>
+      /* Global Styles */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9; /* Light background for a clean look */
+        color: #333; /* Dark text for readability */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Center content vertically */
+        text-align: center;
+      }
+
+      /* Container Styles */
+      .container {
+        background-color: #ffffff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px; /* Responsive width */
+      }
+
+      /* Typography */
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Button/Link Styles */
+      a {
+        display: inline-block;
+        text-decoration: none;
+        background-color: #007bff; /* Primary button color */
+        color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+      }
+
+      a:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+      }
+    </style>
   </head>
 
   <body>
-    <div>
+    <div class="container">
       <h1>{{message}}</h1>
-
-      return to <a href="http://localhost:5173/">Home</a>
+      <p>Thank you for your payment. Your transaction has been processed successfully.</p>
+      <!-- Action Link -->
+      <a href="http://localhost:5173/">Return to Home</a>
     </div>
   </body>
 </html>

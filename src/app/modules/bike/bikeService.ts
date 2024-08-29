@@ -8,8 +8,21 @@ const createBikeIntoDB = async (payload: TBike) => {
     return result;
 };
 
-const getAllBikeFromDB = async () => {
-    const result = await Bike.find().select('-__v');
+const getAllBikeFromDB = async (searchTerm: string) => {
+
+      //find by regex
+  const querySearch = searchTerm
+  ? {
+      $or: [                                                               //using or operator will take all the conditions and apply any of them   
+        { name: { $regex: searchTerm, $options: 'i' } },
+        { description: { $regex: searchTerm, $options: 'i' } },
+        { brand: { $regex: searchTerm, $options: 'i' } },
+        { model: { $regex: searchTerm, $options: 'i' } },
+      ],
+    }
+  : {};
+
+    const result = await Bike.find(querySearch).select('-__v').sort({ isAvailable: -1 });
     return result;
 };
 

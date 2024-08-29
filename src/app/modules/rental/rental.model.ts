@@ -28,6 +28,10 @@ const rentalSchema = new Schema<TRental>({
         type: Boolean,
         default: false,
     },
+    isPaid: {
+        type: Boolean,
+        default: false,
+    },
     transactionId: {
         type: String,
         required: true

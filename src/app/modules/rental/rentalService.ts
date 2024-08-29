@@ -6,7 +6,7 @@ import AppError from "../../errors/AppError";
 import mongoose from "mongoose";
 import { Rental } from "./rental.model";
 import getDifference from "./rental.utils";
-import { initiatePayment } from "../payment/payment.utils";
+import { initiatePayment, verifyPayment } from "../payment/payment.utils";
 import { User } from "../user/user.model";
 
 
@@ -135,7 +135,7 @@ const getAllRentalFromDB = async (req:Request)=>{
 
     const paymentData = {
         transactionId,
-        amount: 100,
+        amount: 1000,
         customerName:me?.name,
         customerEmail: me?.email,
         customerPhone: me?.phone,
@@ -145,7 +145,14 @@ const getAllRentalFromDB = async (req:Request)=>{
     console.log(paymentData,'backend')
     // console.log(paymentData, 'backend')
     const paymentSession = await initiatePayment(paymentData);
-    console.log(paymentSession);
+    console.log(paymentSession,'payment session');
+
+    const verifyResponse = await verifyPayment(transactionId);
+    // console.log(verifyResponse, 'verify response');
+
+
+
+    
 
 
     return {

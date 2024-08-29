@@ -13,7 +13,10 @@ const createBike = catchAsync(async(req,res)=>{
 });
 
 const getAllBike = catchAsync(async(req,res)=>{
-    const result = await BikeServices.getAllBikeFromDB();
+
+    const searchTerm = req.query.searchTerm as string;
+
+    const result = await BikeServices.getAllBikeFromDB(searchTerm);
     //if there is no bike in the database
     if(result.length === 0){
         return res.status(404).json({

@@ -43,6 +43,7 @@ export const verifyPayment = async (tnxId: string) => {
                 request_id: tnxId
             }
         });
+        console.log(tnxId,'from utils')
 
         return response.data;
     }

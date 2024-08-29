@@ -8,6 +8,7 @@ const createRentalZod = z.object({
         returnTime: z.string().nullable().optional(),
         totalCost: z.number().optional().default(0),
         isReturned: z.boolean().optional().default(false),
+        isPaid: z.boolean().optional().default(false),
         transactionId: z.string().optional(),
     }),
 });
