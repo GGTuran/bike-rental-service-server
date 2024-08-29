@@ -19,6 +19,7 @@ Technology Stack:
 - Database: MongoDB(Mongoose for ODM)
 - Validation Library: Zod
 - Authentication & Authorization : JSON Web Token
+- Payment : aamarpay
 - Deployment : Vercel
 
 The api has the following endpoints:
@@ -61,6 +62,10 @@ DATABASE_URL=your_own_mongodb_uri
 BCRYPT_SALT_ROUNDS= any number
 JWT_ACCESS_SECRET= Your JWT Secret
 JWT_ACCESS_EXPIRES= Your Jwt Token Expire time
+STORE_ID = Your aamarpay store id
+SIGNATURE_KEY = Your aamarpay signature key
+PAYMENT_URL = aamarpay base url for payment
+PAYMENT_VERIFY_URL = aamarpay base url for verifying transaction id
 ```
 
 **You can compile typescript**
@@ -129,6 +134,11 @@ modules
 │   └── bike.validation.ts
 │   ├── bike.route.ts
 │   └── bike.service.ts
+├── payment
+│   ├── payment.controller.ts
+│   ├── payment.model.ts
+│   ├── payment.route.ts
+│   └── payment.service.ts
 ├── rental
 │   ├── rental.controller.ts
 │   ├── rental.interface.ts
@@ -204,6 +214,14 @@ The base URL for all API endpoints is: `https://bike-rental-service-server.verce
 - **Method**: `DELETE`
 - **Route**: `/api/bikes/:id`
 - **Description**: Remove a specific bike from the system (Admin only).
+
+## Payment Routes
+
+### Confirming Payment
+
+- **Method**: `POST`
+- **Route**: `/api/payment/confirmation`
+- **Description**: Confirms the payment.
 
 ## Rental Routes
 
